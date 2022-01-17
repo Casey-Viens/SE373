@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 1 Read Todo Page</title>
+</head>
+
+<body>
+    <table id="jsonTable">
+        <tr>
+            <th>ID</th>
+            <th>User ID</th>
+            <th>Title</th>
+            <th>Completed</th>
+        </tr>
+    </table>
+</body>
+<script>
+    fetch('http://localhost:3000/todo').then(response => response.json()).then((obj) => {
+        console.log(obj)
+        var table = document.querySelector("#jsonTable")
+        for (let i = 0; i < obj.length; i++) {
+            let row = table.insertRow();
+            row.insertCell(0).innerHTML = obj[i].id;
+            row.insertCell(1).innerHTML = obj[i].userId;
+            row.insertCell(2).innerHTML = obj[i].title;
+            row.insertCell(3).innerHTML = obj[i].completed;
+        }
+    })
+</script>
+
+</html>
