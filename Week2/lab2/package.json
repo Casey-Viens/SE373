@@ -1,0 +1,14 @@
+{
+  "name": "lab2",
+  "version": "1.0.0",
+  "description": "Week 2 Lab Assignment Advanced Open Source Web Development",
+  "main": "index.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "author": "Casey Viens",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
