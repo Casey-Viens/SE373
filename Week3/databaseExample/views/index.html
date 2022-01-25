@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodlist</title>
+</head>
+<body>
+    <div id="container">
+        <h1>
+            Enter Your Favorite Food.
+        </h1>
+        <nav>
+            <a href="#">Enter Food</a>
+            <a href="foodlist.html">Look at Food</a>
+        </nav>
+        <form action="/saveFoodEntry" method="post">
+            <span id="err" style="color: red"></span>
+            <br>
+            <label for="food">Enter your food here.</label>
+            <input type="text" name="food" id="foodEntry">
+            <button type="submit">Submit Food</button>
+        </form>
+    </div>
+</body>
+</html>

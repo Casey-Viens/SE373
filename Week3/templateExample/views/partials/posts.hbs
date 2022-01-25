@@ -1,10 +1,6 @@
-<nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Book Face</a>
-</nav>
-
 <div class="posts">
     <div class="row justify-content-center ">
-        {{#each posts}}
+        {{#each post}}
             <div class="col-lg-7" style="margin-top: 50px;">
                 <div class="card">
                     <img src="{{this.image}}" alt="Image from site" class="card-img-top">
@@ -14,7 +10,7 @@
                             <ul class="list-group">
                                 <!--Logic for list goes here -->
                                 {{#each this.comments}}
-                                    <li class="list-group-item">{{this}}</li>
+                                    <li class="list-group-item">{{getShortComment this}}</li>
                                 {{/each}}
                             </ul>
                         {{else}}
