@@ -1,0 +1,20 @@
+{{#each employee}}
+<tr>
+    <td> {{this.firstName}} </td>
+    <td> {{this.lastName}} </td>
+    <td> {{this.department}} </td>
+    <td> {{this.startDate}} </td>
+    <td> {{this.jobTitle}} </td>
+    <td> {{this.salary}} </td>
+    <td>
+        <form action="/updateEmployee" method="post">
+            <input type="hidden" name="_id" value="{{this._id}}">
+            <button type="submit">Update Employee</button>
+        </form>
+        <form action="/deleteEmployee" method="post">
+            <input type="hidden" name="_id" value="{{this._id}}">
+            <button type="submit">Delete Employee</button>
+        </form>
+    </td>
+</tr>
+{{/each}}
