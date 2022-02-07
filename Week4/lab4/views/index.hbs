@@ -1,0 +1,15 @@
+<div id="main">
+    <form action="/createGrid" method="post">
+        <label for="gridSize">Select Grid Size: </label>
+        <select name="gridSize" id="gridSize">
+            {{#each gridOptions}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+        <br>
+        <button type="submit">Create Grid</button>
+    </form>
+    {{#if size}}
+    {{colorTable size}}
+    {{/if}}
+</div>
