@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        textarea{
+            width:500px;
+            height:100px;
+        }
+        textarea[name="results"]{
+            height:300px;
+        }
+    </style>
+    <title>Query Example</title>
+</head>
+<body>
+    
+    <h1>Query Example</h1>
+    Verb/HTTPMethod
+    <br>
+    <select name="verb">
+        <option value="GET">GET</option>
+        <option value="POST">POST</option>
+        <option value="PUT">PUT</option>
+        <option value="DELETE">DELETE</option>
+    </select>
+
+    <br>
+    <br>
+    <p>Resource Query:</p>
+    <br>
+    <input name="resource" value="reviews/">
+    <br>
+    <br>
+    <p>Data: (optional)</p>
+    <br>
+    Author <input type="text" name="author" value="">
+    <br>
+    Rating <input type="text" name="rating" placeholder="5" list="ratings">
+    <br>
+    Review <input type="text" name="reviewText">
+    <br>
+    <button>Make Request</button>
+
+
+    <h3>Results</h3>
+    <input name="query">
+    <br>
+    <textarea name="results" readonly></textarea>
+    
+    
+
+    <script>
+        let callBtn = document.querySelector("button")
+        const makeCall = ()=>{
+            let data = {
+                'author': document.querySelector('input[name="author"]').value,
+                'rating': document.querySelector('input[name="rating"]').value,
+                'reviewText': document.querySelector('input[name="reviewText"]').value,
+            }
+
+            let verbfield = document.querySelector('select[name="verb"]')
+            let verb = verbfield.options[verbfield.selectedIndex].value
+            let resource = document.querySelector("input[name='resource']").value
+            let results = document.querySelector("textarea[name='results']")
+            let url = `http://localhost:3000/api/v1/${resource}`
+
+            document.querySelector('input[name="query"]').value = url
+
+            let myHeaders = new Headers()
+
+            myHeaders.set('Content-Type', 'application/json')
+
+            let myInit = {
+                method: verb,
+                headers: myHeaders,
+                mode: 'cors',
+                cache: 'default'
+            }
+
+            if(['POST','PUT'].indexOf(verb)> -1){
+                myInit.body = JSON.stringify(data)
+            }
+
+            let myRequest = new Request(url, myInit)
+
+            fetch(myRequest).then(response =>{
+                let contentType = response.headers.get('Content-Type')
+                if(contentType && contentType.includes('application/json')){
+                    return response.text()
+                }
+                if(response.status === 204){
+                    return 'Delete'
+                }
+                throw new TypeError("This isn't JSON")
+            }).then(jsonText =>{
+                results.value = jsonText
+            }).catch(err =>{
+                console.log(err)
+            })
+        }
+
+        
+        callBtn.addEventListener('click', makeCall())
+
+        
+    </script>
+</body>
+</html>
