@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -21,11 +22,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cors())
 //enable Cross-origin Resource Sharing
 app.use((req, res, next)=>{
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept')
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+
+    next()
 })
 
 app.use('/api/v1', index);

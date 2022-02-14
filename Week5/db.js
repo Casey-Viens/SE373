@@ -1,19 +1,13 @@
 const mongoose = require('mongoose')
 const debug = require('debug')('demo')
-const dbURI = 'mongodb://localhost/Reviews'
-/*
+const dbURI = 'mongodb://localhost:27017/Reviews'
+
 if(process.env.NODE_ENV === 'production'){
     dbURI = process.env.MONGOLAB_URI;
-}*/
+}
 
 mongoose.connect(dbURI, {
-    useNewURLParser:true,
-    useUnifiedTopology:true
-
-}).then(()=>{
-    console.log("Connected to the Database")
-}).catch((err)=>{
-    console.log(err)
+    
 })
 
 

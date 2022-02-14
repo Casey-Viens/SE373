@@ -1,13 +1,10 @@
-let review = require('./review.model')
-const mongoose = require('mongoose')
+let Review = require('./review.model')
 let debug = require('debug')('demo:review')
 
 const sendJSONresponse = (res, status, content)=>{
     res.status(status)
     res.json(content)
 }
-
-var Review = mongoose.model('Review')
 
 module.exports.readReviewsAll = (req, res)=>{
     debug('Getting all reviews')
