@@ -4,10 +4,13 @@ const bodyParser = require('body-parser')
 const exphbs = require("express-handlebars")
 const app = express()
 const path = require('path')
+var cors = require('cors');
+const { Collection } = require('mongoose')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
+app.use(cors())
 
 
 app.engine('hbs', exphbs.engine({
@@ -95,6 +98,77 @@ app.post("/deleteEmployee", (req, res) => {
     Employee.findByIdAndDelete(req.body._id).lean().exec().then((employee) => {
         console.log({ employee: employee })
         res.render("delete", { employee: employee })
+    })
+})
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//Week5 Assignment Routes
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// GET - api/v1/employees?_sort={-column or column}
+// Example Queries
+// employees/sort=firstName
+// employees/sort=-firstName
+// employees/sort=-salary
+app.get("/api/v1/employees/sort=:sort", (req, res) => {
+    Employee.find().then((employee) => {
+        console.log("Sort Route")
+        console.log(req.params.sort)
+        let direction = req.params.sort.substring(0, 1)
+        console.log(direction)
+        var column = "";
+        if (direction == "-") {
+            column = req.params.sort.substring(1)
+        } else {
+            column = req.params.sort.substring(0)
+        }
+        employee.sort(function (a, b) {
+            //found sort logic from https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/#:~:text=Creating%20a%20Dynamic%20Sorting%20Function
+            // was originally using simpler sort logic from stackoverflow but I could not get the descending order to work
+            const valueA = (typeof a[column] === 'string')
+                ? a[column].toUpperCase() : a[column];
+            const valueB = (typeof b[column] === 'string')
+                ? b[column].toUpperCase() : b[column];
+            console.log(valueA, valueB)
+            let comparison = 0;
+            if (valueA > valueB) {
+                comparison = 1;
+            } else if (valueA < valueB) {
+                comparison = -1;
+            }
+            return (
+                (direction === '-') ? (comparison * -1) : comparison
+            );
+        })
+        res.json(employee)
+    })
+})
+
+// GET - api/v1/employees?{column}={value}
+// Example Query
+// employees/col=department&val=Back%20End
+// employees/col=salary&val=50000
+// employees/col=firstName&val=Casey
+app.get("/api/v1/employees/col=:column&val=:value", (req, res) => {
+    console.log("Column Value Route")
+    console.log(req.params.column, req.params.value)
+    let found = false;
+    var employees = [];
+    Employee.find().then((employee) => {
+        for (e in employee) {
+            console.log(employee[e])
+            if (employee[e][req.params.column] == req.params.value) {
+                found = true;
+                employees.push(employee[e])
+            }
+        }
+        if (found == false) {
+            res.json({
+                "message": "column & value pair not found"
+            })
+        }else{
+            res.json(employees)
+        }
     })
 })
 
