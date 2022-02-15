@@ -1,0 +1,9 @@
+{{>nav}}
+<div id="main">
+    <h1>Delete Page: </h1>
+    {{#if employee}}
+    <h2>Employee {{employee.firstName}}, {{employee.lastName}} was successfully deleted</h2>
+    {{else}}
+    <h2>No employee recently deleted</h2>
+    {{/if}}
+</div>
