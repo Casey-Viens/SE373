@@ -1,0 +1,24 @@
+{{>nav}}
+<div id="main">
+    {{#if name}}
+    <h1>Assignment 6 created by Casey Viens and {{name}}</h1>
+    {{/if}}
+    <h2>Enter an Contact:</h2>
+    <form action="/saveContact" method="post">
+        <label for="name">Name: </label>
+        <input type="text" name="name" id="name" required>
+        <br>
+        <label for="phoneNumber">Phone Number: </label>
+        <input type="tel" name="phoneNumber" id="phoneNumber" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            placeholder="###-###-####" required>
+        <br>
+        <label for="phoneType">Phone Type: </label>
+        <select name="phoneType" id="phoneType" required>
+            <option value="Mobile">Mobile</option>
+            <option value="Work">Work</option>
+            <option value="Home">Home</option>
+        </select>
+        <br>
+        <button type="submit">Submit Contact</button>
+    </form>
+</div>
