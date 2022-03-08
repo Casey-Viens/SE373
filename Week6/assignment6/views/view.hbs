@@ -1,0 +1,10 @@
+{{>nav}}
+<div id="main">
+    <h2>Contacts</h2>
+    <textarea name="contacts" readonly>
+        {{#each contact}}
+            {{json this}}
+            &#13;
+        {{/each}}
+    </textarea>
+</div>
